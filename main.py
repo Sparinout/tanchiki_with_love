@@ -1,57 +1,29 @@
 import random
 import math
+
+import numpy as np
 import pygame
-from pubnub.callbacks import SubscribeCallback
-from pubnub.pnconfiguration import PNConfiguration
-from pubnub.pubnub import PubNub
 import sys
 
-
-pnconfig = PNConfiguration()
-
-pnconfig.subscribe_key = 'sub-c-b641520a-0eb7-4a51-8513-1e483f229b87'
-pnconfig.publish_key = 'pub-c-a7f07719-20f5-4334-8d5b-c340b995d609'
-pnconfig.user_id = "Bogdan"
-pubnub = PubNub(pnconfig)
-
-class MySubscribeCallback(SubscribeCallback):
-    def message(self, pubnub, message):
-        print(message.publisher, ':', message.message)
-
-pubnub.add_listener(MySubscribeCallback())
-pubnub.subscribe().channels('my_channel').execute()
-pubnub.publish().channel('my_channel').message(input()).sync
-
-
-WIDTH = 2000
-HEIGHT = 1800
+WIDTH = 1700
+HEIGHT = 1000
 FPS = 60
 GREY = 0x7D7D7D
 RED = 0xFF0000
 
+
 class Ball:
     def __init__(self, screen: pygame.Surface, x, y):
-        """ Конструктор класса Ball
-        Args:
-        x - начальное положение мяча по горизонтали
-        y - начальное положение мяча по вертикали
-        """
         self.screen = screen
         self.x = x
         self.y = y
-        self.r = 15
+        self.r = 5
         self.vx = 0
         self.vy = 0
         self.color = RED
-        self.live = 15
+        self.live = 60
 
     def move(self):
-        """Переместить мяч по прошествии единицы времени.
-        Метод описывает перемещение мяча за один кадр перерисовки. То есть обновляет значения
-        self.x и self.y с учетом скоростей self.vx и self.vy
-        и стен по краям окна (размер окна 800х600).
-        """
-
         self.x += self.vx
         self.y += self.vy
 
@@ -78,25 +50,15 @@ class Ball:
             self.screen,
             self.color,
             (self.x, self.y),
-            self.r
-        )
+            self.r)
         pygame.draw.circle(
             self.screen,
             (0, 0, 0),
             (self.x, self.y),
-            self.r, 1
-        )
+            self.r, 1)
 
     def hittest(self, obj):
-        """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
-        Args:
-            obj: Обьект, с которым проверяется столкновение.
-        Returns:
-            Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
-        """
-        # FIXME
-        # return False
-        if ((obj.x - self.x)**2 + (obj.y - self.y)**2)**0.5 <= (self.r + obj.r):
+        if ((obj.x - self.x) ** 2 + (obj.y - self.y) ** 2) ** 0.5 <= (self.r + obj.r):
             return True
         else:
             return False
@@ -105,43 +67,37 @@ class Ball:
 class Gun:
     def __init__(self, screen):
         self.screen = screen
-        self.f2_power = 10
+        self.f2_power = 50
         self.f2_on = 0
         self.an = 1
+        self.h = 10
+        self.l = 50
         self.color = GREY
 
     def fire2_start(self):
         self.f2_on = 1
 
-    def fire2_end(self, event, tank0):
-        new_ball = Ball(self.screen, tank0.x, tank0.y)
-        new_ball.r = 10
-        new_ball.vx = (self.f2_power) * math.cos(self.an)
-        new_ball.vy = (self.f2_power) * math.sin(self.an)
+    def fire2_end(self, event, x, y):
+        new_ball = Ball(self.screen, x, y)
+        new_ball.vx = 10 * math.cos(self.an)
+        new_ball.vy = 10 * math.sin(self.an)
         balls.append(new_ball)
 
-        self.f2_power = 10
-        self.f2_on = 0
-
     def targetting(self, m_x, m_y, x, y):
-        """Прицеливание. Зависит от положения мыши."""
         if event:
             self.an = math.atan2((m_y - y), (m_x - x))
-        if self.f2_on:
-            self.color = RED
-        else:
-            self.color = GREY
 
     def draw(self, x, y):
-        pygame.draw.line(self.screen, self.color, (x, y), (x + (80 + self.f2_power) * math.cos(self.an), y + (80 + self.f2_power) * math.sin(self.an)), 15)
+        pygame.draw.polygon(self.screen, self.color,
+                            [[x - self.h / 2 * np.sin(self.an), y + self.h / 2 * np.cos(self.an)],
 
-    def power_up(self):
-        if self.f2_on:
-            if self.f2_power < 100:
-                self.f2_power += 1
-            self.color = RED
-        else:
-            self.color = GREY
+                             [x - self.h / 2 * np.sin(self.an) + self.l * np.cos(self.an),
+                              y + self.h / 2 * np.cos(self.an) + self.l * np.sin(self.an)],
+
+                             [x + self.h / 2 * np.sin(self.an) + self.l * np.cos(self.an),
+                              y - self.h / 2 * np.cos(self.an) + self.l * np.sin(self.an)],
+
+                             [x + self.h / 2 * np.sin(self.an), y - self.h / 2 * np.cos(self.an)]])
 
 
 class Tank:
@@ -154,6 +110,8 @@ class Tank:
         self.up_on = 0
         self.down_on = 0
         self.speed = 6
+        self.width = 30
+        self.height = 30
 
     def right_1(self):
         self.right_on = 1
@@ -211,12 +169,7 @@ for i in range(number_of_tanks):
     g = Gun(screen)
     guns.append(g)
 
-#tank = Tank(screen)
-#tank.draw()
-
-
 balls = []
-#gun = Gun(screen)
 mouse_x = 0
 mouse_y = 0
 
@@ -224,9 +177,13 @@ while not finished:
     clock.tick(FPS)
     screen.fill((255, 255, 255))
 
-    for i in range (number_of_tanks):
+    for b in balls:
+        b.move()
+        b.draw()
+
+    for i in range(number_of_tanks):
         tanks[i].draw()
-        guns[i].draw(tanks[i].x + 15, tanks[i].y + 15)
+        guns[i].draw(tanks[i].x + tanks[i].width / 2, tanks[i].y + tanks[i].height / 2)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -252,12 +209,11 @@ while not finished:
         if event.type == pygame.MOUSEBUTTONDOWN:
             guns[player].fire2_start()
         if event.type == pygame.MOUSEBUTTONUP:
-            guns[player].fire2_end(event, tanks[player])
+            guns[player].fire2_end(event, tanks[player].x + tanks[player].width / 2,
+                                   tanks[player].y + tanks[player].height / 2)
         if event.type == pygame.MOUSEMOTION:
             mouse_x = event.pos[0]
             mouse_y = event.pos[1]
-
-    guns[player].power_up()
 
     if (tanks[player].x + 30 >= WIDTH):
         tanks[player].right_0()
@@ -274,13 +230,11 @@ while not finished:
 
     tanks[player].move()
     tanks[player].draw()
-    guns[player].targetting(mouse_x, mouse_y, tanks[player].x, tanks[player].y)
+    guns[player].targetting(mouse_x, mouse_y,
+                            tanks[player].x + tanks[player].width / 2, tanks[player].y + tanks[player].height / 2)
 
     print(tanks[player].x, tanks[player].y)
 
-    for b in balls:
-        b.move()
-        b.draw()
     pygame.display.update()
 
 pygame.quit()

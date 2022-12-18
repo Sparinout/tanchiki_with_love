@@ -9,6 +9,7 @@ main_socket.setblocking(0)
 main_socket.listen(2)
 
 players_sockets = []
+
 while True:
     try:
         new_socket, addr = main_socket.accept()
@@ -20,9 +21,8 @@ while True:
 
     for sock in players_sockets:
         try:
-            data = sock.recv(128)
+            data = sock.recv(1024)
             for sock1 in players_sockets:
                     sock1.send(data)
         except:
             pass
-    time.sleep(FPS)

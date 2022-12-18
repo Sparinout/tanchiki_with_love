@@ -23,5 +23,21 @@ class Tank:
         if self.down_on:
             self.y += self.speed
 
+        # Столкновение танка со стенами
+        if self.x + self.width >= WIDTH:
+            self.right_on = 0
+            self.x -= 1
+        if self.x <= 0:
+            self.left_on = 0
+            self.x += 1
+        if self.y + self.height >= HEIGHT:
+            self.down_on = 0
+            self.y -= 1
+        if self.y <= 0:
+            self.up_on = 0
+            self.y += 1
+
     def draw(self):
-        pygame.draw.rect(self.screen, (0, 0, 0), (self.x, self.y, 30, 30))
+        pygame.draw.rect(self.screen, (0, 0, 0), (self.x, self.y, self.width, self.height))
+    def draw_turret(self):
+        pygame.draw.circle(screen, RED, (self.x + self.width / 2, self.y + self.height / 2), min(self.width, self.height) / 3)

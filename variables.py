@@ -8,6 +8,9 @@ FPS = 60
 GREY = 0x7D7D7D
 RED = 0xFF0000
 
+mouse_x = 0
+mouse_y = 0
+
 balls = []
 tanks = []
 guns = []

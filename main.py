@@ -1,13 +1,11 @@
 from gun import *
 from tank import *
+#from client import *
+#from server import *
 
 # Класс Ball уже импортирован в gun, внешние библиотеки содержатся в variables,
 # который, в свою очередь уже используется в других файлах с классами
-
 player = 0
-
-mouse_x = 0
-mouse_y = 0
 
 # Создание объектов класса Tank
 for i in range(number_of_tanks):
@@ -30,9 +28,9 @@ while not finished:
 
     # Прорисовка корпуса танка и пушки
     for i in range(number_of_tanks):
-        guns[i].draw(tanks[i].x + tanks[i].width / 2, tanks[i].y + tanks[i].height / 2)
         tanks[i].draw()
-
+        guns[i].draw(tanks[i].x + tanks[i].width / 2, tanks[i].y + tanks[i].height / 2)
+        tanks[i].draw_turret()
 
     # Проверка происходящих событий
     for event in pygame.event.get():
@@ -59,25 +57,13 @@ while not finished:
         if event.type == pygame.MOUSEBUTTONDOWN:
             guns[player].fire2_start()
         if event.type == pygame.MOUSEBUTTONUP:
-            guns[player].fire2_end(event, tanks[player].x + tanks[player].width / 2 + guns[player].l * np.cos(guns[player].an),
-                                   tanks[player].y + tanks[player].height / 2 + guns[player].l * np.sin(guns[player].an))
+            guns[player].fire2_end(event,
+                                   tanks[player].x + tanks[player].width / 2 + guns[player].l * np.cos(guns[player].an),
+                                   tanks[player].y + tanks[player].height / 2 + guns[player].l * np.sin(
+                                       guns[player].an))
         if event.type == pygame.MOUSEMOTION:
             mouse_x = event.pos[0]
             mouse_y = event.pos[1]
-
-    # Столкновение танка со стенами
-    if (tanks[player].x + 30 >= WIDTH):
-        tanks[player].right_on = 0
-        tanks[player].x -= 1
-    if (tanks[player].x <= 0):
-        tanks[player].left_on = 0
-        tanks[player].x += 1
-    if (tanks[player].y + 30 >= HEIGHT):
-        tanks[player].down_on = 0
-        tanks[player].y -= 1
-    if (tanks[player].y <= 0):
-        tanks[player].up_on = 0
-        tanks[player].y += 1
 
     # Движение танка
     tanks[player].move()

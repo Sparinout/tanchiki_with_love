@@ -1,7 +1,8 @@
 import socket
 import pygame
+
 clock = pygame.time.Clock()
-FPS = 99999
+FPS = 120
 
 main_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_IP)
 main_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
@@ -21,16 +22,13 @@ while len(players_sockets) < 2:
     except:
         pass
 
-data2 = "!"
-flag = 0
-for sock2 in players_sockets:
-    while flag == 0:
-        try:
-            sock2.send(data2.encode())
-            flag += 1
-        except:
-            pass
-    flag = 0
+connection = '0'
+for sock in players_sockets:
+    try:
+        connection = '1'
+        sock.send(connection.encode())
+    except:
+        pass
 
 while True:
     clock.tick(FPS)

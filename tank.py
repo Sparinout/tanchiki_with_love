@@ -12,6 +12,7 @@ class Tank:
         self.speed = 3
         self.width = 30
         self.height = 30
+        self.color = RED
 
     def move(self):
         if self.right_on:
@@ -40,4 +41,4 @@ class Tank:
     def draw(self):
         pygame.draw.rect(self.screen, (0, 0, 0), (self.x, self.y, self.width, self.height))
     def draw_turret(self):
-        pygame.draw.circle(screen, RED, (self.x + self.width / 2, self.y + self.height / 2), min(self.width, self.height) / 3)
+        pygame.draw.circle(screen, self.color, (self.x + self.width / 2, self.y + self.height / 2), min(self.width, self.height) / 3)

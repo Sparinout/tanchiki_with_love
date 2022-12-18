@@ -35,7 +35,7 @@ while True:
     clock.tick(FPS)
     for i in range(2):
         try:
-            data = players_sockets[i].recv(1024)
+            data = players_sockets[i].recv(2048)
             players_sockets[1-i].send(data)
         except:
             pass

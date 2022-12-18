@@ -9,7 +9,7 @@ class Ball:
         self.vx = 0
         self.vy = 0
         self.color = RED
-        self.live = 240
+        self.live = 500
 
     def move(self):
         self.x += self.vx
@@ -46,8 +46,12 @@ class Ball:
             self.r, 1)
 
     def hittest(self, obj):
-        if ((obj.x - self.x) ** 2 + (obj.y - self.y) ** 2) ** 0.5 <= (self.r + obj.r):
+        if (self.x > obj.x and self.x < obj.x + obj.width and
+            self.y > obj.y and self.y < obj.y + obj.height):
             return True
         else:
             return False
 
+def circle_draw(screen, color, x, y, r):
+    pygame.draw.circle(screen, color, (x, y), r)
+    pygame.draw.circle(screen, (0, 0, 0), (x, y), r, 1)

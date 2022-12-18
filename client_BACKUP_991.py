@@ -11,6 +11,10 @@ def send(string):
 
 def receive():
     try:
-        return list(map(float, sock.recv(2048).decode().split()))
+<<<<<<< HEAD
+        return list(map(float, sock.recv(1024).decode().split()))
+=======
+        return list(map(float, sock.recv(128).decode().split()))
+>>>>>>> main
     except:
-        pass
+        return

@@ -7,6 +7,7 @@ HEIGHT = 800
 FPS = 120
 GREY = 0x7D7D7D
 RED = 0xFF0000
+BLUE = 0x0000FF
 
 mouse_x = 0
 mouse_y = 0

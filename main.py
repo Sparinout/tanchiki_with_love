@@ -1,13 +1,14 @@
 from gun import *
 from tank import *
-#from client import *
-#from server import *
+
+from client import *
+
 
 # Класс Ball уже импортирован в gun, внешние библиотеки содержатся в variables,
 # который, в свою очередь уже используется в других файлах с классами
 player = 0
 
-# Создание объектов класса Tank
+# Создание объектов класса Tank и Gun
 for i in range(number_of_tanks):
     t = Tank(screen)
     tanks.append(t)
@@ -71,5 +72,28 @@ while not finished:
                             tanks[player].x + tanks[player].width / 2, tanks[player].y + tanks[player].height / 2)
     # Обновление дисплея
     pygame.display.update()
+
+    # Создаем строку с координатами нашего танка
+    data_send = str(tanks[player].x) + ' ' + str(tanks[player].y) + ' ' + str(guns[player].an) + ' '
+
+    # Добавляем к строке координаты шариков
+    for b in balls:
+        data_send += str(b.x) + ' ' + str(b.y) + ' '
+
+    # Отправляем строку на сервер
+    send(data_send)
+
+    # Принимаем строку данных от сервера
+    data_recv = receive()
+
+    # Прорисовка танка и шаров другого игрока
+    for another_player in range(1, number_of_tanks):
+        tanks[another_player].x = data_recv[0]
+        tanks[another_player].y = data_recv[1]
+        guns[another_player].an = data_recv[2]
+        tanks[another_player].draw()
+        guns[another_player].draw(tanks[another_player].x + tanks[another_player].width / 2, tanks[another_player].y + tanks[another_player].height / 2)
+
+
 
 pygame.quit()

@@ -7,7 +7,7 @@ class Gun:
         self.f2_on = 0
         self.an = 1
         self.h = 10
-        self.l = 50
+        self.l = 40
         self.color = GREY
 
     def fire2_start(self):

@@ -1,9 +1,8 @@
-from variables import *
 import socket
 
 main_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_IP)
 main_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-main_socket.bind(('192.168.0.108', 10000))
+main_socket.bind(('localhost', 10000))
 
 main_socket.setblocking(0)
 main_socket.listen(2)
@@ -23,6 +22,7 @@ while True:
         try:
             data = sock.recv(1024)
             for sock1 in players_sockets:
+                if sock1 != sock:
                     sock1.send(data)
         except:
             pass

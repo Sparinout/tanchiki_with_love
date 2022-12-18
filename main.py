@@ -1,7 +1,19 @@
+import time
+
 from gun import *
 from tank import *
-
 from client import *
+import time
+
+data2 = ""
+
+while data2 != "!":
+    try:
+        data2 = sock.recv(1024).decode()
+    except:
+        pass
+    time.sleep(1)
+
 
 
 # Класс Ball уже импортирован в gun, внешние библиотеки содержатся в variables,
@@ -80,19 +92,24 @@ while not finished:
     for b in balls:
         data_send += str(b.x) + ' ' + str(b.y) + ' '
 
+
     # Отправляем строку на сервер
     send(data_send)
 
     # Принимаем строку данных от сервера
-    data_recv = receive()
-
+    try:
+        s = sock.recv(1024).decode()
+        data_recv = list(map(float, s.split()))
+        for another_player in range(1, number_of_tanks):
+            tanks[another_player].x = data_recv[0]
+            tanks[another_player].y = data_recv[1]
+            guns[another_player].an = data_recv[2]
+            tanks[another_player].draw()
+            guns[another_player].draw(tanks[another_player].x + tanks[another_player].width / 2,
+                                      tanks[another_player].y + tanks[another_player].height / 2)
+    except:
+        pass
     # Прорисовка танка и шаров другого игрока
-    for another_player in range(1, number_of_tanks):
-        tanks[another_player].x = data_recv[0]
-        tanks[another_player].y = data_recv[1]
-        guns[another_player].an = data_recv[2]
-        tanks[another_player].draw()
-        guns[another_player].draw(tanks[another_player].x + tanks[another_player].width / 2, tanks[another_player].y + tanks[another_player].height / 2)
 
 
 

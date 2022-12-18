@@ -2,9 +2,9 @@ import pygame
 import numpy as np
 import math
 
-WIDTH = 1700
-HEIGHT = 1000
-FPS = 60
+WIDTH = 1500
+HEIGHT = 800
+FPS = 120
 GREY = 0x7D7D7D
 RED = 0xFF0000
 

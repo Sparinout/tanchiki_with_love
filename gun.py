@@ -7,7 +7,7 @@ class Gun:
         self.f2_on = 0
         self.an = 1
         self.h = 10
-        self.l = 50
+        self.l = 40
         self.color = GREY
 
     def fire2_start(self):
@@ -20,7 +20,6 @@ class Gun:
         balls.append(new_ball)
 
     def targetting(self, m_x, m_y, x, y):
-        #if event:
         self.an = math.atan2((m_y - y), (m_x - x))
 
     def draw(self, x, y):

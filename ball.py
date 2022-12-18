@@ -9,7 +9,7 @@ class Ball:
         self.vx = 0
         self.vy = 0
         self.color = RED
-        self.live = 60
+        self.live = 240
 
     def move(self):
         self.x += self.vx

@@ -11,6 +11,6 @@ def send(string):
 
 def receive():
     try:
-        return list(map(float, sock.recv(2048).decode().split()))
+        return list(map(float, sock.recv(128).decode().split()))
     except:
         pass

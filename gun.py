@@ -14,13 +14,13 @@ class Gun:
         self.f2_on = 1
 
     def fire2_end(self, event, x, y):
-        new_ball = Ball(self.screen, x, y)
-        new_ball.vx = 10 * math.cos(self.an)
-        new_ball.vy = 10 * math.sin(self.an)
-        balls.append(new_ball)
+        if len(balls) <= 5:
+            new_ball = Ball(self.screen, x, y)
+            new_ball.vx = 10 * math.cos(self.an)
+            new_ball.vy = 10 * math.sin(self.an)
+            balls.append(new_ball)
 
     def targetting(self, m_x, m_y, x, y):
-        #if event:
         self.an = math.atan2((m_y - y), (m_x - x))
 
     def draw(self, x, y):

@@ -13,3 +13,7 @@ tanks = []
 guns = []
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.init()
+clock = pygame.time.Clock()
+finished = False
+number_of_tanks = 2

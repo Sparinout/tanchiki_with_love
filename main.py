@@ -4,11 +4,6 @@ from tank import *
 # Класс Ball уже импортирован в gun, внешние библиотеки содержатся в variables,
 # который, в свою очередь уже используется в других файлах с классами
 
-pygame.init()
-clock = pygame.time.Clock()
-finished = False
-
-number_of_tanks = 2
 player = 0
 
 mouse_x = 0

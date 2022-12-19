@@ -47,6 +47,7 @@ while True:
             else:
                 players_sockets[1 - i].send('2'.encode())
                 players_sockets = []
+                print('All players disconnected')
                 connecting()
                 break
         except:

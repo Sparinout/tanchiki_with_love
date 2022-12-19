@@ -1,6 +1,7 @@
 from gun import *
 from tank import *
 from client import *
+from text import *
 import time
 
 connection = '0'
@@ -41,18 +42,6 @@ while not finished:
             else:
                 b.move()
                 b.draw()
-
-    score = str(score_first_player)
-    text1 = f1.render(score, 1, (255, 0, 0))
-    screen.blit(text1, (WIDTH / 2 - 30, 0.05 * HEIGHT))
-
-    score = " : "
-    text2 = f1.render(score, 1, (0, 0, 0))
-    screen.blit(text2, (WIDTH / 2, 0.05 * HEIGHT))
-
-    score = str(score_second_player)
-    text3 = f1.render(score, 1, (0, 0, 255))
-    screen.blit(text3, (WIDTH / 2 + 30, 0.05 * HEIGHT))
 
     # Прорисовка корпуса танка и пушки
     for i in range(number_of_tanks):
@@ -108,6 +97,16 @@ while not finished:
     # Если второй игрок отключился, сервер отправляет игроку специальную команду, распознание которой осуществляет if ниже
     if data_recv[0] == 2.0:
         finished = True
+        screen.fill((255, 255, 255))
+        final_draw(score_first_player, score_second_player, f2, WIDTH, HEIGHT)
+        click_anywhere_draw(f3, WIDTH, HEIGHT)
+        pygame.display.update()
+        flag = True
+        while flag:
+            clock.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONUP:
+                    flag = False
     else:
         # Обработка полученных данных
         for another_player in range(1, number_of_tanks):
@@ -117,6 +116,8 @@ while not finished:
             score_second_player = int(data_recv[3])
             for i in range(5, len(data_recv), 2):
                 circle_draw(screen, BLUE, data_recv[i - 1], data_recv[i], 5)
+        # Отрисовка счёта
+        score_draw(score_first_player, score_second_player, f1, WIDTH, HEIGHT)
         # Обновление дисплея
         pygame.display.update()
 

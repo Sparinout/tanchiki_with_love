@@ -23,5 +23,7 @@ finished = False
 number_of_tanks = 2
 
 f1 = pygame.font.Font(None, 36)
+f2 = pygame.font.Font(None, 60)
+f3 = pygame.font.Font(None, 24)
 score_first_player = 0
 score_second_player = 0

@@ -1,3 +1,5 @@
+import numpy as np
+
 from gun import *
 from tank import *
 from client import *
@@ -105,17 +107,17 @@ while not finished:
         while flag:
             clock.tick(FPS)
             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP:
+                if event.type == pygame.MOUSEBUTTONUP or event.type == pygame.QUIT:
                     flag = False
     else:
         # Обработка полученных данных
         for another_player in range(1, number_of_tanks):
-            tanks[another_player].x = data_recv[0]
-            tanks[another_player].y = data_recv[1]
-            guns[another_player].an = data_recv[2]
+            tanks[another_player].x = WIDTH - tanks[another_player].width - data_recv[0]
+            tanks[another_player].y = HEIGHT - tanks[another_player].height - data_recv[1]
+            guns[another_player].an = data_recv[2] + np.pi
             score_second_player = int(data_recv[3])
             for i in range(5, len(data_recv), 2):
-                circle_draw(screen, BLUE, data_recv[i - 1], data_recv[i], 5)
+                circle_draw(screen, BLUE, WIDTH - data_recv[i - 1], HEIGHT - data_recv[i], 5)
         # Отрисовка счёта
         score_draw(score_first_player, score_second_player, f1, WIDTH, HEIGHT)
         # Обновление дисплея

@@ -3,15 +3,15 @@ from variables import *
 class Tank:
     def __init__(self, screen):
         self.screen = screen
-        self.x = WIDTH // 2 - 30 // 2
-        self.y = HEIGHT // 2 - 30 // 2
         self.right_on = 0
         self.left_on = 0
         self.up_on = 0
         self.down_on = 0
         self.speed = 12
-        self.width = 30
-        self.height = 30
+        self.width = 50
+        self.height = 50
+        self.x = 5
+        self.y = HEIGHT - self.height - 5
         self.color = RED
 
     def move(self):
@@ -40,16 +40,16 @@ class Tank:
         # Столкновение танка со стенами
         if self.x + self.width >= WIDTH:
             self.right_on = 0
-            self.x -= 1
+            self.x = WIDTH - self.width - 1
         if self.x <= 0:
             self.left_on = 0
-            self.x += 1
+            self.x = 1
         if self.y + self.height >= HEIGHT:
             self.down_on = 0
-            self.y -= 1
+            self.y = HEIGHT - self.height - 1
         if self.y <= 0:
             self.up_on = 0
-            self.y += 1
+            self.y = 1
 
     def draw(self):
         pygame.draw.rect(self.screen, (0, 0, 0), (self.x, self.y, self.width, self.height))

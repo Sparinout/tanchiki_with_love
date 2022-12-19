@@ -14,3 +14,9 @@ def receive():
         return list(map(float, sock.recv(2048).decode().split()))
     except:
         pass
+
+def disconnection_flag():
+    try:
+        sock.send('0'.encode())
+    except:
+        pass

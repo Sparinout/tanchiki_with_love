@@ -35,8 +35,8 @@ while not finished:
     for b in balls:
         for i in range(1, len(tanks)):
             if b.hittest(tanks[i]):
-                print("Defeat")
-                score_first_player+=1
+
+                score_first_player += 1
                 balls.pop(balls.index(b))
             else:
                 b.move()
@@ -96,23 +96,29 @@ while not finished:
     guns[player].targetting(mouse_x, mouse_y,
                             tanks[player].x + tanks[player].width / 2, tanks[player].y + tanks[player].height / 2)
     # Создаем строку с координатами нашего танка
-    data_send = str(tanks[player].x) + ' ' + str(tanks[player].y) + ' ' + str(guns[player].an) + ' ' + str(score_first_player) + ' '
+    data_send = str(tanks[player].x) + ' ' + str(tanks[player].y) + ' ' + str(guns[player].an) + ' ' + str(
+        score_first_player) + ' '
     # Добавляем к строке координаты шариков
     for b in balls:
         data_send += str(b.x) + ' ' + str(b.y) + ' '
     # Отправляем строку на сервер
     send(data_send)
     # Принимаем строку данных от сервера
-    # ЗДЕСЬ МОЖЕТ БЫТЬ ОШИБКА ПОТОМУ ЧТО МЫ УБРАЛИ try
     data_recv = receive()
-    # Обработка полученных данных
-    for another_player in range(1, number_of_tanks):
-        tanks[another_player].x = data_recv[0]
-        tanks[another_player].y = data_recv[1]
-        guns[another_player].an = data_recv[2]
-        score_second_player = int(data_recv[3])
-        for i in range(5, len(data_recv), 2):
-            circle_draw(screen, BLUE, data_recv[i - 1], data_recv[i], 5)
-    # Обновление дисплея
-    pygame.display.update()
+    # Если второй игрок отключился, сервер отправляет игроку специальную команду, распознание которой осуществляет if ниже
+    if data_recv[0] == 2.0:
+        finished = True
+    else:
+        # Обработка полученных данных
+        for another_player in range(1, number_of_tanks):
+            tanks[another_player].x = data_recv[0]
+            tanks[another_player].y = data_recv[1]
+            guns[another_player].an = data_recv[2]
+            score_second_player = int(data_recv[3])
+            for i in range(5, len(data_recv), 2):
+                circle_draw(screen, BLUE, data_recv[i - 1], data_recv[i], 5)
+        # Обновление дисплея
+        pygame.display.update()
+
+disconnection_flag()
 pygame.quit()

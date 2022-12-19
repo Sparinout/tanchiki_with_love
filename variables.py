@@ -3,8 +3,8 @@ import numpy as np
 import math
 
 WIDTH = 1500
-HEIGHT = 800
-FPS = 120
+HEIGHT = 700
+FPS = 30
 GREY = 0x7D7D7D
 RED = 0xFF0000
 BLUE = 0x0000FF

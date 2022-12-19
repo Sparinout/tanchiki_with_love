@@ -22,7 +22,7 @@ def connecting():
         except:
             pass
 
-
+print('Server is ready to work')
 clock1 = pygame.time.Clock()
 FPS = 30
 

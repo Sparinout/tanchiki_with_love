@@ -21,3 +21,7 @@ pygame.init()
 clock = pygame.time.Clock()
 finished = False
 number_of_tanks = 2
+
+f1 = pygame.font.Font(None, 36)
+score_first_player = 0
+score_second_player = 0

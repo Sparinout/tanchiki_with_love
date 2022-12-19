@@ -16,8 +16,8 @@ class Gun:
     def fire2_end(self, event, x, y):
         if len(balls) < 10:
             new_ball = Ball(self.screen, x, y)
-            new_ball.vx = 20 * math.cos(self.an)
-            new_ball.vy = 20 * math.sin(self.an)
+            new_ball.vx = 10 * math.cos(self.an)
+            new_ball.vy = 10 * math.sin(self.an)
             balls.append(new_ball)
 
     def targetting(self, m_x, m_y, x, y):

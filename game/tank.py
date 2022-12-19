@@ -7,7 +7,7 @@ class Tank:
         self.left_on = 0
         self.up_on = 0
         self.down_on = 0
-        self.speed = 12
+        self.speed = 6
         self.width = 50
         self.height = 50
         self.x = 5

@@ -23,8 +23,7 @@ def connecting():
 
 print('Server is ready to work')
 clock1 = pygame.time.Clock()
-FPS = 30
-
+FPS = 1200
 main_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_IP)
 main_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 main_socket.bind(('192.168.0.105', 10000))

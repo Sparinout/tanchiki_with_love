@@ -4,7 +4,7 @@ import math
 
 WIDTH = 1500
 HEIGHT = 700
-FPS = 30
+FPS = 60
 GREY = 0x7D7D7D
 RED = 0xFF0000
 BLUE = 0x0000FF

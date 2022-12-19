@@ -32,7 +32,6 @@ for i in range(number_of_tanks):
 # Основная часть программы
 while not finished:
     # Далее описан один период выполнения программы, время периода -- 1/FPS
-    clock.tick(FPS)
     screen.fill((255, 255, 255))
     # Движение и прорисовка снарядов
     for b in balls:

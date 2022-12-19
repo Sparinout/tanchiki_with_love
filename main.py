@@ -36,10 +36,24 @@ while not finished:
         for i in range(1, len(tanks)):
             if b.hittest(tanks[i]):
                 print("Defeat")
+                score_first_player+=1
                 balls.pop(balls.index(b))
             else:
                 b.move()
                 b.draw()
+
+    score = str(score_first_player)
+    text1 = f1.render(score, 1, (255, 0, 0))
+    screen.blit(text1, (WIDTH / 2 - 30, 0.05 * HEIGHT))
+
+    score = " : "
+    text2 = f1.render(score, 1, (0, 0, 0))
+    screen.blit(text2, (WIDTH / 2, 0.05 * HEIGHT))
+
+    score = str(score_second_player)
+    text3 = f1.render(score, 1, (0, 0, 255))
+    screen.blit(text3, (WIDTH / 2 + 30, 0.05 * HEIGHT))
+
     # Прорисовка корпуса танка и пушки
     for i in range(number_of_tanks):
         tanks[i].draw()
@@ -82,7 +96,7 @@ while not finished:
     guns[player].targetting(mouse_x, mouse_y,
                             tanks[player].x + tanks[player].width / 2, tanks[player].y + tanks[player].height / 2)
     # Создаем строку с координатами нашего танка
-    data_send = str(tanks[player].x) + ' ' + str(tanks[player].y) + ' ' + str(guns[player].an) + ' '
+    data_send = str(tanks[player].x) + ' ' + str(tanks[player].y) + ' ' + str(guns[player].an) + ' ' + str(score_first_player) + ' '
     # Добавляем к строке координаты шариков
     for b in balls:
         data_send += str(b.x) + ' ' + str(b.y) + ' '
@@ -96,8 +110,9 @@ while not finished:
         tanks[another_player].x = data_recv[0]
         tanks[another_player].y = data_recv[1]
         guns[another_player].an = data_recv[2]
-        for i in range(4, len(data_recv), 2):
-            circle_draw(screen, BLUE, data_recv[i-1], data_recv[i], 5)
+        score_second_player = int(data_recv[3])
+        for i in range(5, len(data_recv), 2):
+            circle_draw(screen, BLUE, data_recv[i - 1], data_recv[i], 5)
     # Обновление дисплея
     pygame.display.update()
 pygame.quit()

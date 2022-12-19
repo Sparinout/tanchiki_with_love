@@ -7,7 +7,7 @@ FPS = 120
 
 main_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_IP)
 main_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-main_socket.bind(('192.168.0.105', 10000))
+main_socket.bind(('192.168.0.108', 10000))
 
 main_socket.setblocking(0)
 main_socket.listen(2)

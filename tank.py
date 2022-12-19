@@ -9,20 +9,33 @@ class Tank:
         self.left_on = 0
         self.up_on = 0
         self.down_on = 0
-        self.speed = 3
+        self.speed = 12
         self.width = 30
         self.height = 30
         self.color = RED
 
     def move(self):
-        if self.right_on:
-            self.x += self.speed
-        if self.left_on:
-            self.x -= self.speed
-        if self.up_on:
-            self.y -= self.speed
-        if self.down_on:
-            self.y += self.speed
+        # Если движение происходит только в одном направлении, то оно происходит со скоростью self.speed
+        if self.right_on + self.left_on + self.up_on + self.down_on == 1:
+            if self.right_on:
+                self.x += self.speed
+            if self.left_on:
+                self.x -= self.speed
+            if self.up_on:
+                self.y -= self.speed
+            if self.down_on:
+                self.y += self.speed
+        # Если танк одновременно двигается в двух направлениях, то его модуль скорости должен остаться
+        # равным self.speed, поэтому скорость движения в каждом направлении делится на sqrt(2)
+        elif self.right_on + self.left_on + self.up_on + self.down_on > 1:
+            if self.right_on:
+                self.x += self.speed * 0.7071
+            if self.left_on:
+                self.x -= self.speed * 0.7071
+            if self.up_on:
+                self.y -= self.speed * 0.7071
+            if self.down_on:
+                self.y += self.speed * 0.7071
 
         # Столкновение танка со стенами
         if self.x + self.width >= WIDTH:
